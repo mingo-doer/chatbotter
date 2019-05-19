@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="http://127.0.0.1:8000/static/style.css" rel="stylesheet" type="text/css" charset="UTF-8"/>
+    <script type="text/javascript" src="/static/jquery.js"></script>
+    <title>聊天机器人</title>
+
+    <script type="text/javascript">
+
+        function submitMsg() {
+              var Words = document.getElementById("words");
+    var Who = document.getElementById("who");
+    var TalkWords = document.getElementById("talkwords");
+    var Talkvalue=TalkWords;
+
+    var TalkSub = document.getElementById("talksub");
+   // //定义空字符串
+                var str = "";
+                var botSay="";
+                if(TalkWords.value == ""){
+                // 消息为空时弹窗
+                alert("消息不能为空");
+                return;
+                }
+
+      str = '<div class="atalk"><span>user说 :' + TalkWords.value +'</span></div>';
+      Words.innerHTML = Words.innerHTML + str;
+        TalkWords.value=""
+            $.ajax({
+                    url: "http://127.0.0.1:8000/api/chatbot?infos="+$("#Talkvalue").val(), success: function (data) { //请求成功的回调函数
+
+                botSay = '<div class="btalk"><span>chatbot说 :' + data +'</span></div>' ;
+
+                Words.innerHTML = Words.innerHTML + botSay;
+                    }
+                }
+
+            );
+
+        }
+    </script>
+</head>
+<body>
+<div class="talk_con">
+    <div class="talk_show" id="words">
+        <div class="btalk"><span id="asay">你好，我是聊天机器人小黄鸡！</span></div>
+        <div class="btalk"><span id="bsay">很高兴认识你</span></div>
+    </div>
+    <div class="talk_input">
+
+        <input type="text" class="talk_word" id="talkwords">
+
+        <input type="button" value="发送" class="talk_sub" id="talksub" onclick="submitMsg()">
+    </div>
+    <div class="test"/>
+</div>
+</body>
+</html>
